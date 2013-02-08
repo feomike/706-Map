@@ -1,0 +1,287 @@
+{
+  "bounds": [
+    -180,
+    13,
+    180,
+    72
+  ],
+  "center": [
+    -97,
+    35,
+    4
+  ],
+  "format": "png",
+  "interactivity": {
+    "layer": "main706_cty_poly",
+    "template_teaser": "<img src=\"https://chart.googleapis.com/chart?chs=250x250&cht=bhg&chf=a,s,FFFFFF&chtt={{{fullname}}}|{{{hhu_2011}}} :Housing Units|% Technology Available &chts=000000,12,r&chma=50,15,0,0&chxt=x,y,r&chxl=1:|Fixed Wls.|DSL|Cable|Fiber|2:| {{{wisp_hhu_per}}}|{{{dsl_hhu_per}}}|{{{cable_hhu_per}}}|{{{fiber_hhu_per}}}&chco=5e5e5e&chbh=r&chxr=0,0,0,0&chds=0,100&chd=t:{{{fiber_hhu_per}}},{{{cable_hhu_per}}},{{{dsl_hhu_per}}},{{{wisp_hhu_per}}}&chdls=000000&chdlp=b&chg=14.3,9,6,1&chls=1|1&chm=N,FFFFFF,0,0,13,,c|N,FFFFFF,0,1,13,,c|N,FFFFFF,0,2,13,,c|N,FFFFFF,0,3,13,,c\" width=\"250\" height=\"250\" alt=\"Technology\" \\>",
+    "template_full": "",
+    "template_location": "",
+    "fields": []
+  },
+  "minzoom": 3,
+  "maxzoom": 10,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "data-colors",
+    "labels",
+    "data"
+  ],
+  "Layer": [
+    {
+      "geometry": "polygon",
+      "id": "land",
+      "name": "land",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-land.zip",
+        "id": "land",
+        "srs": "",
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "polygon",
+      "Datasource": {
+        "type": "postgis",
+        "table": "(\nselect gid, geom, cty,  county_fips, fullname,  \n  pop_2011, to_char(hhu_2011, '999,999,999') as hhu_2011, dsl_hhu_per, cable_hhu_per, fiber_hhu_per, \n  copper_hhu_per, other_hhu_per, wisp_hhu_per\nfrom carto.county\ninner join analysis.main706_cty on\n(county.cty=main706_cty.county_fips)\n)\nas main706_cty",
+        "extent": "",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "dbname": "fccgis",
+        "host": "localhost",
+        "port": "54321"
+      },
+      "id": "main706_cty_poly",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "name": "main706_cty_poly"
+    },
+    {
+      "id": "countries",
+      "name": "countries",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "geometry": "polygon",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-countries.zip"
+      },
+      "class": ""
+    },
+    {
+      "geometry": "multipolygon",
+      "Datasource": {
+        "type": "postgis",
+        "table": "(select * from carto.states where state in ('60','66','69','72','78') ) as islands",
+        "extent": "",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "host": "localhost",
+        "port": "54321",
+        "dbname": "fccgis",
+        "id": "islands",
+        "project": "706map",
+        "srs": null
+      },
+      "id": "islands",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "name": "islands"
+    },
+    {
+      "geometry": "polygon",
+      "id": "lake",
+      "name": "lake",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-lakes.zip",
+        "id": "lake",
+        "srs": "",
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "multipolygon",
+      "Datasource": {
+        "type": "postgis",
+        "table": "(select * from analysis.main706fixed_poly ) as main706fixed_poly",
+        "extent": "",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "host": "localhost",
+        "port": "54321",
+        "dbname": "fccgis",
+        "id": "main706fixed_poly",
+        "project": "706map",
+        "srs": null
+      },
+      "id": "main706fixed_poly",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "name": "main706fixed_poly"
+    },
+    {
+      "geometry": "polygon",
+      "Datasource": {
+        "type": "postgis",
+        "table": "(select * from carto.tribal) as tribal",
+        "extent": "",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "dbname": "fccgis",
+        "host": "localhost",
+        "port": "54321"
+      },
+      "id": "tribal",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "name": "tribal"
+    },
+    {
+      "geometry": "multipolygon",
+      "name": "state_high_res",
+      "id": "state_high_res",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "class": "",
+      "Datasource": {
+        "table": "(select * from carto.states) as state_high_res",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "extent": "",
+        "type": "postgis",
+        "dbname": "fccgis",
+        "host": "localhost",
+        "port": "54321"
+      },
+      "srs-name": "900913"
+    },
+    {
+      "geometry": "polygon",
+      "id": "state-name",
+      "name": "state-name",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-admin-1-states-provinces-shp.zip",
+        "id": "state-name",
+        "srs": "",
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "linestring",
+      "id": "state-line",
+      "name": "state-line",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-1-states-provinces-lines-shp.zip",
+        "id": "state-line",
+        "srs": "",
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "linestring",
+      "id": "country-border",
+      "name": "country-border",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-admin-0-boundary-lines-land.zip",
+        "id": "country-border",
+        "srs": "",
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "multipolygon",
+      "name": "nearshore",
+      "id": "nearshore",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "class": "",
+      "Datasource": {
+        "table": "(select * from carto.water_poly \n) as nearshore",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "extent": "",
+        "type": "postgis",
+        "dbname": "fccgis",
+        "host": "localhost",
+        "port": "54321"
+      },
+      "srs-name": "900913"
+    },
+    {
+      "geometry": "polygon",
+      "name": "county",
+      "id": "county",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "class": "",
+      "Datasource": {
+        "table": "(select * from carto.county\n) as county",
+        "key_field": "gid",
+        "geometry_field": "geom",
+        "extent": "",
+        "type": "postgis",
+        "dbname": "fccgis",
+        "host": "localhost",
+        "port": "54321",
+        "id": "county",
+        "project": "RoadMiles",
+        "srs": null
+      },
+      "srs-name": "900913"
+    },
+    {
+      "geometry": "linestring",
+      "id": "coastline",
+      "name": "coastline",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-coastline.zip",
+        "id": "coastline",
+        "srs": "",
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "point",
+      "id": "city",
+      "name": "city",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/cultural/10m-populated-places-simple.zip",
+        "id": "city",
+        "srs": null,
+        "project": "RoadMiles"
+      }
+    },
+    {
+      "geometry": "point",
+      "name": "statecentroids",
+      "id": "statecentroids",
+      "srs": "",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/michaelsbyrne/Documents/MapBox/data/state_centroids.shp",
+        "id": "statecentroids",
+        "project": "RoadMiles",
+        "srs": null
+      },
+      "srs-name": "autodetect"
+    }
+  ],
+  "name": "FCC 706 Map",
+  "description": "Some Map",
+  "attribution": "Some Attribution",
+  "legend": "<table>\n<tr>\n  <th colspan=\"3\"><strong>Broadband Availability</strong></th>\n<tr>\n  <td></td>\n  <td><center>Urban</center></td>\n  <td><center>Rural</center></td>\n</tr>\n<tr>\n  <td>Available</td>\n  <td><center><span style='color:#329000'>▉</center></td>\n  <td><center><span style='color:#80c85a'>▉</center></td>\n</tr>\n<tr>\n  <td>Unavailable</td>\n  <td><center><span style='color:#ff8240'>▉</center></td>\n  <td><center><span style='color:#ffb996'>▉</center></td>\n<tr>\n  <td colspan=\"3\"><center><span style='color:#deedef'>▉  </span>Water    <span style='color:#fffde3'>▉ </span>    Unpopulated    <span style='color:#a60000'>▉  </span>  Tribal Lands</center></td>\n</tr> \n</table>\n",
+  "version": "1.0.1"
+}
